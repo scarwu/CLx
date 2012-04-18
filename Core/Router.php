@@ -12,39 +12,21 @@ class Router {
 		$this->_rule = array();
 		$this->_rule['path'] = array();
 		$this->_rule['callback'] = array();
-		$this->_rule['httpd_method'] = array();
+		
+		$this->_is_match = FALSE;
+		$this->_default_route = NULL;
 		
 		$this->_regex = array(
 			':?' => '(.+)',
 			':string' => '(\w+)',
 			':numeric' => '(\d+)'
 		);
-		
-		$this->_is_match = FALSE;
-		$this->_default_route = NULL;
 	}
 	
 	/**
 	 * 
 	 */
-	private function segments() {
-		// Using PATH_INFO
-		if(isset($_SERVER['PATH_INFO']))
-			return $_SERVER['PATH_INFO'];
-		
-		// Using PHP_SELF
-		elseif(isset($_SERVER['PHP_SELF']))
-			return preg_replace('/^\/index.php/', '', $_SERVER['PHP_SELF']);
-		
-		// Using REQUEST_URI
-		elseif(isset($_SERVER['REQUEST_URI']))
-			return preg_replace('/^\/index.php/', '', $_SERVER['REQUEST_URI']);
-	}
-	
-	/**
-	 * 
-	 */
-	private function regex_generator($path) {
+	private function RegexGenerator($path) {
 		$path = str_replace(array('/', '.'), array('\/', '\.'), $path);
 		
 		foreach((array)$this->_regex as $search => $replace)
@@ -56,7 +38,7 @@ class Router {
 	/**
 	 * 
 	 */
-	public function add($path, $callback) {
+	public function Add($path, $callback) {
 		array_push($this->_rule['path'], $path);
 		array_push($this->_rule['callback'], $callback);
 	}
@@ -64,20 +46,16 @@ class Router {
 	/**
 	 * 
 	 */
-	public function run() {
+	public function Run() {
 		foreach((array)$this->_rule['path'] as $index => $path) {
 			if('default' === $path) {
 				$this->_default_route = $index;
 				continue;
 			}
 			
-			echo $path . ' => ';
-
-			$path = $this->regex_generator($path);
+			$path = $this->RegexGenerator($path);
 			
-			echo $path . ' ... ';
-			
-			if(preg_match($path, $this->segments())) {
+			if(preg_match($path, Request::Uri())) {
 				$this->_is_match = TRUE;
 				$this->_rule['callback'][$index]();
 				break;

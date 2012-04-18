@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CLx
  * 
@@ -20,28 +19,18 @@ if('development' === CLX_MODE || 'test' === CLX_MODE) {
 else
 	error_reporting(0);
 
-define('SEPARATOR', DIRECTORY_SEPARATOR);
-
-define('CLX_SYS_CORE', CLX_SYS_ROOT . 'Core' . SEPARATOR);
-define('CLX_SYS_LIBRARY', CLX_SYS_ROOT . 'Library' . SEPARATOR);
-
-define('CLX_APP_CACHE', CLX_APP_ROOT . 'Cache' . SEPARATOR);
-define('CLX_APP_CONFIG', CLX_APP_ROOT . 'Config' . SEPARATOR);
-define('CLX_APP_CONTROLLERS', CLX_APP_ROOT . 'Controllers' . SEPARATOR);
-define('CLX_APP_LIBRARY', CLX_APP_ROOT . 'Library' . SEPARATOR);
-define('CLX_APP_LOGS', CLX_APP_ROOT . 'Logs' . SEPARATOR);
-define('CLX_APP_MODELS', CLX_APP_ROOT . 'Models' . SEPARATOR);
-define('CLX_APP_VIEWS', CLX_APP_ROOT . 'Views' . SEPARATOR);
+define('CLX_SYS_CORE', CLX_SYS_ROOT . 'Core' . DIRECTORY_SEPARATOR);
+define('CLX_SYS_LIBRARY', CLX_SYS_ROOT . 'Library' . DIRECTORY_SEPARATOR);
 
 require_once CLX_SYS_ROOT . 'Config.php';
-require_once CLX_SYS_ROOT . 'Core/Autoload.php';
-require_once CLX_SYS_ROOT . 'Core/Router.php';
-
-require_once CLX_APP_CONFIG . 'Route.php';
+require_once CLX_SYS_CORE . 'Autoload.php';
+require_once CLX_SYS_CORE . 'Request.php';
+require_once CLX_SYS_CORE . 'Router.php';
 
 $OWRouter = new Router();
 
+require_once CLX_APP_CONFIG . 'Route.php';
 foreach((array)$Route as $rule)
-	$OWRouter->add($rule[0], $rule[1]);
+	$OWRouter->Add($rule[0], $rule[1]);
 
-$OWRouter->run();
+$OWRouter->Run();
