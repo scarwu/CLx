@@ -1,6 +1,6 @@
 <?php
 
-class CLX_Controller {
+class CLx_Controller {
 	public function __construct() {
 		
 	}

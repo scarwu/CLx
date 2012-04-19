@@ -1,6 +1,6 @@
 <?php
 
-class CLX_Model {
+class CLx_Model {
 	public function __construct() {
 		
 	}

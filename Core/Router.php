@@ -85,7 +85,8 @@ class Router {
 			
 			if(preg_match($path, Request::Uri(), $match)) {
 				$this->_is_match = TRUE;
-				$this->_rule['callback'][$index]($match);
+				
+				$this->_rule['callback'][$index](array_slice($match, 1));
 				break;
 			}
 		}
