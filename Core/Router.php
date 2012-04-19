@@ -1,12 +1,29 @@
 <?php
 
 class Router {
+	
+	/**
+	 * @var array
+	 */
 	private $_rule;
+	
+	/**
+	 * @var int
+	 */
 	private $_default_route;
+	
+	/**
+	 * @var bool
+	 */
 	private $_is_match;
 	
 	/**
-	 * 
+	 * @var array
+	 */
+	private $_regex;
+	
+	/**
+	 * Constructor
 	 */
 	public function __construct() {
 		$this->_rule = array();
@@ -24,7 +41,11 @@ class Router {
 	}
 	
 	/**
+	 * Regex Generator
 	 * 
+	 * @param string
+	 * 
+	 * @return string
 	 */
 	private function RegexGenerator($path) {
 		$path = str_replace(array('/', '.'), array('\/', '\.'), $path);
@@ -36,7 +57,12 @@ class Router {
 	}
 	
 	/**
+	 * Add Route Rule
 	 * 
+	 * @param string
+	 * @param function object
+	 * 
+	 * @return void
 	 */
 	public function Add($path, $callback) {
 		array_push($this->_rule['path'], $path);
@@ -44,7 +70,9 @@ class Router {
 	}
 	
 	/**
+	 * Run Router
 	 * 
+	 * @return void
 	 */
 	public function Run() {
 		foreach((array)$this->_rule['path'] as $index => $path) {
@@ -55,21 +83,18 @@ class Router {
 			
 			$path = $this->RegexGenerator($path);
 			
-			if(preg_match($path, Request::Uri())) {
+			if(preg_match($path, Request::Uri(), $match)) {
 				$this->_is_match = TRUE;
-				$this->_rule['callback'][$index]();
+				$this->_rule['callback'][$index]($match);
 				break;
 			}
-			else
-				echo "NO\n";
 		}
 		
 		if(FALSE === $this->_is_match) {
 			if(NULL !== $this->_default_route)
 				$this->_rule['callback'][$this->_default_route]();
-			else {
-				echo "404";
-			}
+			else
+				Response::HTTPCode(404);
 		}
 	}
 }

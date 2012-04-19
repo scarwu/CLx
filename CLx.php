@@ -23,14 +23,26 @@ define('CLX_SYS_CORE', CLX_SYS_ROOT . 'Core' . DIRECTORY_SEPARATOR);
 define('CLX_SYS_LIBRARY', CLX_SYS_ROOT . 'Library' . DIRECTORY_SEPARATOR);
 
 require_once CLX_SYS_ROOT . 'Config.php';
-require_once CLX_SYS_CORE . 'Autoload.php';
-require_once CLX_SYS_CORE . 'Request.php';
-require_once CLX_SYS_CORE . 'Router.php';
 
-$OWRouter = new Router();
+require_once CLX_SYS_CORE . 'Autoload.php';
+
+require_once CLX_SYS_CORE . 'Request.php';
+require_once CLX_SYS_CORE . 'Response.php';
+
+require_once CLX_SYS_CORE . 'Controller.php';
+require_once CLX_SYS_CORE . 'Model.php';
+// require_once CLX_SYS_CORE . 'View.php';
+
+require_once CLX_SYS_CORE . 'Log.php';
+require_once CLX_SYS_CORE . 'Event.php';
+
+require_once CLX_SYS_CORE . 'Router.php';
+require_once CLX_SYS_CORE . 'Loader.php';
+
+$CLXRouter = new Router();
 
 require_once CLX_APP_CONFIG . 'Route.php';
 foreach((array)$Route as $rule)
-	$OWRouter->Add($rule[0], $rule[1]);
+	$CLXRouter->Add($rule[0], $rule[1]);
 
-$OWRouter->Run();
+$CLXRouter->Run();
