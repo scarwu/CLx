@@ -39,10 +39,6 @@ require_once CLX_SYS_CORE . 'Event.php';
 require_once CLX_SYS_CORE . 'Router.php';
 require_once CLX_SYS_CORE . 'Loader.php';
 
-$CLXRouter = new Router();
-
 require_once CLX_APP_CONFIG . 'Route.php';
-foreach((array)$Route as $rule)
-	$CLXRouter->Add($rule[0], $rule[1]);
-
+$CLXRouter = new Router($_SERVER['REQUEST_METHOD'], Request::Uri(), $Route);
 $CLXRouter->Run();
