@@ -2,7 +2,7 @@
 
 namespace CLx\Core;
 
-class CLxController {
+class Controller {
 	public function __construct() {
 		
 	}

@@ -2,7 +2,7 @@
 
 namespace CLx\Core;
 
-class CLxModel {
+class Model {
 	public function __construct() {
 		
 	}

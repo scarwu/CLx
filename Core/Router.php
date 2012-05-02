@@ -98,10 +98,10 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function AddRouteList($route_list) {
+	public function AddList($route_list) {
 		foreach((array)$route_list as $method => $route)
 			foreach((array)$route as $rule)
-				$this->AddRoute($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
+				$this->Add($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function AddRoute($method = 'get', $path, $callback, $full_regex = FALSE) {
+	public function Add($method = 'get', $path, $callback, $full_regex = FALSE) {
 		$method = strtolower($method);
 		
 		if(!isset($this->_rule[$method]))
