@@ -1,5 +1,7 @@
 <?php
 
+namespace CLx\Core;
+
 class Loader {
 	public static function Controller($controller_name, $method_name) {
 		$controller_path = CLX_APP_CONTROLLERS . ucfirst($controller_name) . '.php';

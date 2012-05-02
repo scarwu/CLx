@@ -1,5 +1,7 @@
 <?php
 
+namespace CLx\Core;
+
 class Response {
 	
 	/**
@@ -87,6 +89,8 @@ class Response {
 		598 => 'Network read timeout error',
 		599 => 'Network connect timeout error'
 	);
+	
+	private function __construct() {}
 	
 	/**
 	 * Send HTTP Status Code

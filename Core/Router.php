@@ -1,5 +1,7 @@
 <?php
 
+namespace CLx\Core;
+
 class Router {
 	
 	/**
@@ -35,7 +37,7 @@ class Router {
 	/**
 	 * Constructor
 	 */
-	public function __construct($method, $uri, $route) {
+	public function __construct($method, $uri) {
 		$this->_rule = array(
 			'get' => array(
 				'path' => array(),
@@ -71,14 +73,6 @@ class Router {
 		$this->_method = strtolower($method);
 		
 		$this->_uri = $uri;
-
-		foreach((array)$route as $rule)
-			$this->Add(
-				$rule[0],
-				$rule[1],
-				isset($rule[2]) ? $rule[2] : 'get',
-				isset($rule[3]) ? $rule[3] : FALSE
-			);
 	}
 	
 	/**
@@ -98,6 +92,19 @@ class Router {
 	}
 	
 	/**
+	 * Add Route Rule List
+	 * 
+	 * @param array
+	 * 
+	 * @return void
+	 */
+	public function AddRouteList($route_list) {
+		foreach((array)$route_list as $method => $route)
+			foreach((array)$route as $rule)
+				$this->AddRoute($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
+	}
+	
+	/**
 	 * Add Route Rule
 	 * 
 	 * @param string
@@ -107,7 +114,9 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function Add($path, $callback, $method = 'get', $full_regex = FALSE) {
+	public function AddRoute($method = 'get', $path, $callback, $full_regex = FALSE) {
+		$method = strtolower($method);
+		
 		if(!isset($this->_rule[$method]))
 			$method = 'get';
 		
@@ -127,14 +136,11 @@ class Router {
 				$this->_default_route = $index;
 				continue;
 			}
-
-			if(preg_match(
-				$this->_rule[$this->_method]['full_regex'][$index]
-					? $path
-					: $this->RegexGenerator($path),
-				$this->_uri,
-				$match
-			)) {
+			
+			if(!$this->_rule[$this->_method]['full_regex'][$index])
+				$path = $this->RegexGenerator($path);
+			
+			if(preg_match($path, $this->_uri, $match)) {
 				$this->_is_match = TRUE;
 				$this->_rule[$this->_method]['callback'][$index](array_slice($match, 1));
 				break;

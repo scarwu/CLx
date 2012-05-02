@@ -1,6 +1,8 @@
 <?php
 
-class CLx_Controller {
+namespace CLx\Core;
+
+class CLxController {
 	public function __construct() {
 		
 	}
