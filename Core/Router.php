@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 
 namespace CLx\Core;
 

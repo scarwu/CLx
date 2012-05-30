@@ -103,4 +103,12 @@ class Response {
 			header($header);
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	public static function toJSON($data) {
+		if(isset($data))
+			echo json_encode($data);
+	}
 }

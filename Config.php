@@ -1,11 +1,11 @@
 <?php
+/**
+ * 
+ */
 
 /**
  * Autoload Prefix Define
  */
-if(!defined('CLX_APP_PREFIX'))
-	define('CLX_APP_PREFIX', 'CLxApp');
-
 define('CLX_SYS_PREFIX', 'CLx');
 
 /**
