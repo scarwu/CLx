@@ -7,6 +7,42 @@ namespace CLx\Core;
 
 class Loader {
 	
+	private function __construct() {}
+	
+	/**
+	 * Library Loader
+	 * 
+	 * @param string
+	 * 
+	 * @return boolean
+	 */
+	public static function Config($_config_name) {
+		$_config_path = sprintf('%s/Config/%s.php', CLX_APP_ROOT, $_config_name);
+		if(!file_exists($_config_path))
+			return FALSE;
+
+		include $_config_path;
+
+		return isset($$_config_name) ? $$_config_name : FALSE;
+	}
+	
+	/**
+	 * Library Loader
+	 * 
+	 * @param string
+	 * 
+	 * @return boolean
+	 */
+	public static function Library($_library_name) {
+		$_library_path = sprintf('%s/Library/%s.php', CLX_APP_ROOT, $_library_name);
+		if(!file_exists($_library_path))
+			return FALSE;
+
+		require_once $_library_path;
+
+		return TRUE;
+	}
+	
 	/**
 	 * Model Loader
 	 * 
@@ -15,10 +51,7 @@ class Loader {
 	 * @return object
 	 */
 	public static function Model($_model_name) {
-		$_model_name = ucfirst($_model_name);
-		if(class_exists($_model_name))
-			return new $_model_name();
-		
+		$_model_name = ucfirst($_model_name) . 'Model';
 		$_model_path = sprintf('%s/Models/%s.php', CLX_APP_ROOT, $_model_name);
 		if(!file_exists($_model_path))
 			return FALSE;
@@ -68,7 +101,7 @@ class Loader {
 	 * @return boolean
 	 */
 	public static function Controller($_controller_name, $_method_name, $_method_params = NULL) {
-		$_controller_name = ucfirst($_controller_name);
+		$_controller_name = ucfirst($_controller_name) . 'Controller';
 		$_controller_path = sprintf('%s/Controllers/%s.php', CLX_APP_ROOT, $_controller_name);
 		if(!file_exists($_controller_path))
 			return FALSE;
