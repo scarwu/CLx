@@ -15,12 +15,12 @@ abstract class Model {
 	protected $DB;
 	
 	/**
-	 * 
+	 * Construct
 	 */
 	public function __construct() {
 		// Create Database Connect
-		if($Database = \CLx\Core\Loader::Config('Database')) {
-			\CLx\Library\Database::SetDB($Database[CLX_MODE]);
+		if($_database_config = \CLx\Core\Loader::Config('Database', CLX_MODE)) {
+			\CLx\Library\Database::SetDB($_database_config);
 			$this->DB = \CLx\Library\Database::Connect();
 		}
 		else

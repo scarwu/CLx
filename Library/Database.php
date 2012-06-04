@@ -14,14 +14,24 @@ use Exception;
 use PDO;
 
 class Database {
+	
+	/**
+	 * @var object
+	 */
 	private static $_instance = NULL;
 	
+	/**
+	 * @var object
+	 */
 	private $_dbh;
 	
+	/**
+	 * @var object
+	 */
 	private $_sth;
 	
 	/**
-	 * 
+	 * Construct
 	 */
 	private function __construct($config) {
 		if(!class_exists('PDO'))
@@ -39,7 +49,7 @@ class Database {
 	}
 	
 	/**
-	 * 
+	 * Setting Database
 	 */
 	public static function SetDB($config = NULL) {
 		if(NULL === self::$_instance && NULL !== $config)
@@ -47,52 +57,51 @@ class Database {
 	}
 	
 	/**
-	 * 
+	 * Connect Database
 	 */
-	public function Connect() {
+	public static function Connect() {
 		return NULL !== self::$_instance ? self::$_instance : NULL;
 	}
 	
 	/**
-	 * 
+	 * Disconnet Database
 	 */
-	public function Disconnet() {
+	public static function Disconnet() {
 		self::$_instance = NULL;
 	}
 	
 	/**
-	 * 
+	 * Query Database
 	 */
 	public function Query($sql, $params = NULL) {
 		$this->_sth = $this->_dbh->prepare($sql);
 		$this->_sth->execute($params);
-		$this->clear();
 		return $this;
 	}
 	
 	/**
-	 * 
+	 * Return result as row
 	 */
 	public function AsRow() {
 		return $this->_sth->fetchAll(PDO::FETCH_NUM);
 	}
 	
 	/**
-	 * 
+	 * Return result as object
 	 */
 	public function AsObject() {
 		return $this->_sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	
 	/**
-	 * 
+	 * Return result as array
 	 */
 	public function AsArray() {
 		return $this->_sth->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	/**
-	 * 
+	 * Return result insert id
 	 */
 	public function InsertId() {
 		return $this->_dbh->lastInsertId();

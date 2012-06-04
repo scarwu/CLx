@@ -1,6 +1,12 @@
 <?php
 /**
+ * CLx Loader
  * 
+ * @package		CLx
+ * @author		ScarWu
+ * @copyright	Copyright (c) 2012, ScarWu (http://scar.simcz.tw/)
+ * @license		http://opensource.org/licenses/MIT Open Source Initiative OSI - The MIT License (MIT):Licensing
+ * @link		http://github.com/scarwu/CLx
  */
 
 namespace CLx\Core;
@@ -16,14 +22,17 @@ class Loader {
 	 * 
 	 * @return boolean
 	 */
-	public static function Config($_config_name) {
+	public static function Config($_config_name, $_config_index = NULL) {
 		$_config_path = sprintf('%s/Config/%s.php', CLX_APP_ROOT, $_config_name);
 		if(!file_exists($_config_path))
 			return FALSE;
 
 		include $_config_path;
-
-		return isset($$_config_name) ? $$_config_name : FALSE;
+		
+		if(NULL != $_config_index && isset($_config_name[$_config_index]))
+			return ${$_config_name}[$_config_index];
+		
+		return isset(${$_config_name}) ? $$_config_name : FALSE;
 	}
 	
 	/**
