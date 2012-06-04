@@ -28,21 +28,20 @@ require_once CLX_SYS_ROOT . 'Config.php';
 /**
  * Require CLx Autoload
  */
-require_once CLX_SYS_ROOT . 'Core' . DIRECTORY_SEPARATOR . 'Autoload.php';
+require_once CLX_SYS_ROOT . 'Core/Autoload.php';
 
 // Register Autoload
-\CLx\Core\Autoload::Register();
+\CLx\Core\Autoload::register();
 
 /**
  * Require Route Config, Setting Router and Run
  */
-require_once CLX_APP_CONFIG . 'Route.php';
 
 // Init Router
-$CLXRouter = new \CLx\Core\Router($_SERVER['REQUEST_METHOD'], \CLx\Core\Request::Uri());
+$CLXRouter = new \CLx\Core\Router($_SERVER['REQUEST_METHOD'], \CLx\Core\Request::uri());
 
 // Add Route List
-$CLXRouter->AddList($Route);
+$CLXRouter->addList(\CLx\Core\Loader::config('Route'));
 
 // Run Router
-$CLXRouter->Run();
+$CLXRouter->run();

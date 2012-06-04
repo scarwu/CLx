@@ -15,7 +15,7 @@ class Log {
 	
 	private function __construct() {}
 	
-	public static function Write($msg) {
+	public static function write($msg) {
 		
 	}
 }

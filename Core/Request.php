@@ -25,7 +25,7 @@ class Request {
 	/**
 	 * 
 	 */
-	public static function Method() {
+	public static function method() {
 		if(NULL !== self::$_method)
 			return self::$_method;
 		
@@ -39,7 +39,7 @@ class Request {
 	 * 
 	 * @return string
 	 */
-	public static function Uri() {
+	public static function uri() {
 		if(NULL !== self::$_uri)
 			return self::$_uri;
 		
@@ -60,7 +60,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Get() {
+	public static function get() {
 		if(NULL !== self::$_get)
 			return self::$_get;
 		
@@ -72,7 +72,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Post() {
+	public static function post() {
 		if(NULL !== self::$_post)
 			return self::$_post;
 		
@@ -85,7 +85,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Put() {
+	public static function put() {
 		if(NULL !== self::$_put)
 			return self::$_put;
 		
@@ -98,7 +98,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Delete() {
+	public static function delete() {
 		if(NULL !== self::$_delete)
 			return self::$_delete;
 		
@@ -111,7 +111,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Files() {
+	public static function files() {
 		if(NULL !== self::$_files)
 			return self::$_files;
 		
@@ -123,19 +123,19 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Params() {
-		switch(self::Method()) {
+	public static function params() {
+		switch(self::method()) {
 			case 'GET':
-				return self::Get();
+				return self::get();
 				break;
 			case 'POST':
-				return self::Post();
+				return self::post();
 				break;
 			case 'PUT':
-				return self::Put();
+				return self::put();
 				break;
 			case 'DELETE':
-				return self::Delete();
+				return self::delete();
 				break;
 			default:
 				return NULL;

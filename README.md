@@ -1,9 +1,10 @@
 CLx
 ===
+####(from the Cixty-Core)
 
 ### Description
 
-CLx is based on my private framework project
+PHP RESTful Server Framework
 
 ### Requirement
 

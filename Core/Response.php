@@ -18,7 +18,7 @@ class Response {
 	 * 
 	 * @var array
 	 */
-	private static $HTTPStatusCode = array(
+	private static $_http_status_code = array(
 		// 1xx Informational
 		100 => 'Continue',
 		101 => 'Switching Protocols',
@@ -106,9 +106,9 @@ class Response {
 	 * 
 	 * @param int
 	 */
-	public static function HTTPCode($code) {
-		if(isset(self::$HTTPStatusCode[$code])) {
-			$header = sprintf("HTTP/1.1 %s %s", $code, self::$HTTPStatusCode[$code]);
+	public static function setCode($code) {
+		if(isset(self::$_http_status_code[$code])) {
+			$header = sprintf("HTTP/1.1 %s %s", $code, self::$_http_status_code[$code]);
 			header($header);
 		}
 	}
@@ -116,7 +116,7 @@ class Response {
 	/**
 	 * 
 	 */
-	public static function ToJSON($data) {
+	public static function toJSON($data) {
 		if(isset($data))
 			echo json_encode($data);
 	}
