@@ -1,6 +1,6 @@
 <?php
 /**
- * CLx Event
+ * CLx Event Handler
  * 
  * @package		CLx
  * @author		ScarWu
@@ -12,7 +12,24 @@
 namespace CLx\Core;
 
 class Event {
+	private static $_instance = NULL;
+	private static $_event_list;
 	
-	private function __construct() {}
+	private function __construct() {
+		self::$_event_list = \CLx\Core\Loader::config('Event');
+	}
+	
+	/**
+	 * Event trigger
+	 */
+	public static function trigger($event, $callback = NULL) {
+		if(NULL === self::$_instance)
+			self::$_instance = new self;
+		
+		if(isset(self::$_event_list[$event]))
+			foreach(self::$_event_list[$event] as $handle) {
+				$handle($callback);
+			}
+	}
 
 }

@@ -114,7 +114,9 @@ class Response {
 	}
 	
 	/**
+	 * Convert Array to Json String
 	 * 
+	 * @param array
 	 */
 	public static function toJSON($data) {
 		if(isset($data))

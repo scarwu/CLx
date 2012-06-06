@@ -77,7 +77,12 @@ class Request {
 			return self::$_post;
 		
 		parse_str(file_get_contents('php://input'), $input);
-		return self::$_post = isset($_POST['params']) ? $_POST['params'] : (isset($input['params']) ? $input['params'] : NULL);
+		self::$_post = isset($_POST['params']) ? $_POST['params'] : (isset($input['params']) ? $input['params'] : NULL);
+		
+		if(is_string(self::$_post))
+			self::$_post = json_decode(self::$_post, TRUE);
+		
+		return self::$_post;
 	}
 	
 	/**
