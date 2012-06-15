@@ -38,10 +38,10 @@ require_once CLX_SYS_ROOT . 'Core/Autoload.php';
  */
 
 // Init Router
-$CLXRouter = new \CLx\Core\Router($_SERVER['REQUEST_METHOD'], \CLx\Core\Request::uri());
+$router = new \CLx\Core\Router($_SERVER['REQUEST_METHOD'], \CLx\Core\Request::uri());
 
 // Add Route List
-$CLXRouter->addList(\CLx\Core\Loader::config('Route'));
+$router->addList(\CLx\Core\Loader::config('Route'));
 
 // Run Router
-$CLXRouter->run();
+$router->run();

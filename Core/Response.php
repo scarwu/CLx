@@ -119,6 +119,7 @@ class Response {
 	 * @param array
 	 */
 	public static function toJSON($data) {
+		header('Content-Type: application/json; charset=utf-8');
 		if(isset($data))
 			echo json_encode($data);
 	}

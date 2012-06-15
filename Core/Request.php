@@ -19,6 +19,8 @@ class Request {
 	private static $_delete = NULL;
 	private static $_files = NULL;
 	private static $_method = NULL;
+	private static $_params = NULL;
+	private static $_header = NULL;
 	
 	private function __construct() {}
 	
@@ -108,7 +110,7 @@ class Request {
 			return self::$_delete;
 		
 		parse_str(file_get_contents('php://input'), $input);
-		return self::$_delete = isset($input['params']) ? $input['params'] : NULL;
+		return self::$_delete = isset($input) ? $input : NULL;
 	}
 	
 	/**
@@ -124,26 +126,43 @@ class Request {
 	}
 	
 	/**
-	 * Files
+	 * Parameters
 	 * 
 	 * @return complex
 	 */
 	public static function params() {
+		if(NULL !== self::$_params)
+			return self::$_params;
+		
 		switch(self::method()) {
 			case 'GET':
-				return self::get();
+				preg_match('/({(?:.|\n)+})(?:(?:.|\n)+)?/', urldecode($_SERVER['QUERY_STRING']), $match);
+				return self::$_params = json_decode($match[1], TRUE);
 				break;
 			case 'POST':
-				return self::post();
-				break;
 			case 'PUT':
-				return self::put();
-				break;
 			case 'DELETE':
-				return self::delete();
+				return self::$_params = json_decode(file_get_contents('php://input'), TRUE);
 				break;
 			default:
 				return NULL;
 		}
+	}
+	
+	/**
+	 * Headers
+	 */
+	public static function headers() {
+		if(NULL !== self::$_header)
+			return self::$_header;
+		
+		foreach($_SERVER as $key => $value)
+			if(preg_match('/^HTTP_(.+)/', $key, $match))
+				self::$_header[strtolower($match[1])] = $value;
+		
+		self::$_header['content_type'] = $_SERVER['CONTENT_TYPE'];
+		self::$_header['content_length'] = $_SERVER['CONTENT_LENGTH'];
+		
+		return self::$_header;
 	}
 }

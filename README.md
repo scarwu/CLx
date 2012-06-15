@@ -1,10 +1,9 @@
 CLx
 ===
-####(from the Cixty-Core)
 
 ### Description
 
-PHP RESTful Server Framework
+PHP RESTful Server Framework (from the Cixty-Core)
 
 ### Requirement
 
