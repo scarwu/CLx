@@ -20,7 +20,7 @@ class Request {
 	private static $_files = NULL;
 	private static $_method = NULL;
 	private static $_params = NULL;
-	private static $_header = NULL;
+	private static $_headers = NULL;
 	
 	private function __construct() {}
 	
@@ -136,8 +136,14 @@ class Request {
 		
 		switch(self::method()) {
 			case 'GET':
-				preg_match('/({(?:.|\n)+})(?:(?:.|\n)+)?/', urldecode($_SERVER['QUERY_STRING']), $match);
-				return self::$_params = json_decode($match[1], TRUE);
+				if(preg_match('/({(?:.|\n)+})(?:(?:.|\n)+)?/', urldecode($_SERVER['QUERY_STRING']), $match)) {
+					if(isset($match[1]))
+						return self::$_params = json_decode($match[1], TRUE);
+					else
+						return $match[0];
+				}
+				else
+					return NULL;
 				break;
 			case 'POST':
 			case 'PUT':
@@ -153,16 +159,25 @@ class Request {
 	 * Headers
 	 */
 	public static function headers() {
-		if(NULL !== self::$_header)
-			return self::$_header;
+		if(NULL !== self::$_headers)
+			return self::$_headers;
 		
 		foreach($_SERVER as $key => $value)
-			if(preg_match('/^HTTP_(.+)/', $key, $match))
-				self::$_header[strtolower($match[1])] = $value;
+			if(preg_match('/^HTTP_(.+)/', $key, $match)) {
+				$names = explode('_', $match[1]);
+				$index = ucfirst(strtolower(array_shift($names)));
+				if(count($names))
+					foreach($names as $segments)
+						$index .= '-' . ucfirst(strtolower($segments));
+				self::$_headers[$index] = $value;
+			}
 		
-		self::$_header['content_type'] = $_SERVER['CONTENT_TYPE'];
-		self::$_header['content_length'] = $_SERVER['CONTENT_LENGTH'];
+		if(isset($_SERVER['CONTENT_LENGTH']))
+			self::$_headers['Content-Length'] = $_SERVER['CONTENT_LENGTH'];
 		
-		return self::$_header;
+		if(isset($_SERVER['CONTENT_TYPE']))
+			self::$_headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+		
+		return self::$_headers;
 	}
 }
