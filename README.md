@@ -3,7 +3,7 @@ CLx
 
 ### Description
 
-CLx is based on my private framework project
+PHP RESTful Server Framework (from the Cixty-Core)
 
 ### Requirement
 

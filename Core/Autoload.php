@@ -16,7 +16,7 @@ class Autoload {
 	
 	private function __construct() {}
 	
-	public static function CLxLoad($class_name) {
+	public static function load($class_name) {
 		$class_name = str_replace('\\', '/', $class_name);
 		$class_name = preg_replace('/^'.CLX_SYS_PREFIX.'\//', CLX_SYS_ROOT, $class_name);
 		
@@ -26,7 +26,7 @@ class Autoload {
 		require_once $class_name . '.php'; 
 	}
 
-	public static function Register() {
-		spl_autoload_register('self::CLxLoad');
+	public static function register() {
+		spl_autoload_register('self::load');
 	}
 }

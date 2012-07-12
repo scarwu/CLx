@@ -12,16 +12,16 @@
 namespace CLx\Core;
 
 abstract class Model {
-	protected $DB;
+	protected $_db;
 	
 	/**
 	 * Construct
 	 */
 	public function __construct() {
 		// Create Database Connect
-		if($_database_config = \CLx\Core\Loader::Config('Database', CLX_MODE)) {
-			\CLx\Library\Database::SetDB($_database_config);
-			$this->DB = \CLx\Library\Database::Connect();
+		if($_database_config = \CLx\Core\Loader::config('Database', CLX_MODE)) {
+			\CLx\Library\Database::setDB($_database_config);
+			$this->_db = \CLx\Library\Database::connect();
 		}
 		else
 			throw new Exception('Config/Database.php is not exists.');

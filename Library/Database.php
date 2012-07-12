@@ -42,16 +42,16 @@ class Database {
 		
 		// Set connection based on utf-8 encode for mysql
 		if($config['type'] == 'mysql') {
-			$this->_dbh->Query("SET NAMES 'utf8'");
-			$this->_dbh->Query("SET CHARACTER_SET_CLIENT=utf8");
-			$this->_dbh->Query("SET CHARACTER_SET_RESULTS=utf8");
+			$this->_dbh->query("SET NAMES 'utf8'");
+			$this->_dbh->query("SET CHARACTER_SET_CLIENT=utf8");
+			$this->_dbh->query("SET CHARACTER_SET_RESULTS=utf8");
 		}
 	}
 	
 	/**
 	 * Setting Database
 	 */
-	public static function SetDB($config = NULL) {
+	public static function setDB($config = NULL) {
 		if(NULL === self::$_instance && NULL !== $config)
 			self::$_instance = new self($config);
 	}
@@ -59,21 +59,21 @@ class Database {
 	/**
 	 * Connect Database
 	 */
-	public static function Connect() {
+	public static function connect() {
 		return NULL !== self::$_instance ? self::$_instance : NULL;
 	}
 	
 	/**
 	 * Disconnet Database
 	 */
-	public static function Disconnet() {
+	public static function disconnet() {
 		self::$_instance = NULL;
 	}
 	
 	/**
 	 * Query Database
 	 */
-	public function Query($sql, $params = NULL) {
+	public function query($sql, $params = NULL) {
 		$this->_sth = $this->_dbh->prepare($sql);
 		$this->_sth->execute($params);
 		return $this;
@@ -82,28 +82,28 @@ class Database {
 	/**
 	 * Return result as row
 	 */
-	public function AsRow() {
+	public function asRow() {
 		return $this->_sth->fetchAll(PDO::FETCH_NUM);
 	}
 	
 	/**
 	 * Return result as object
 	 */
-	public function AsObject() {
+	public function asObject() {
 		return $this->_sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	
 	/**
 	 * Return result as array
 	 */
-	public function AsArray() {
+	public function asArray() {
 		return $this->_sth->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	/**
 	 * Return result insert id
 	 */
-	public function InsertId() {
+	public function insertId() {
 		return $this->_dbh->lastInsertId();
 	}
 }

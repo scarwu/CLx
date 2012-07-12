@@ -91,7 +91,7 @@ class Router {
 	 * 
 	 * @return string
 	 */
-	private function RegexGenerator($path) {
+	private function regexGenerator($path) {
 		$path = str_replace(array('/', '.'), array('\/', '\.'), $path);
 		
 		foreach((array)$this->_regex as $search => $replace)
@@ -107,10 +107,10 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function AddList($route_list) {
+	public function addList($route_list) {
 		foreach((array)$route_list as $method => $route)
 			foreach((array)$route as $rule)
-				$this->Add($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
+				$this->add($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
 	}
 	
 	/**
@@ -123,7 +123,7 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function Add($method = 'get', $path, $callback, $full_regex = FALSE) {
+	public function add($method = 'get', $path, $callback, $full_regex = FALSE) {
 		$method = strtolower($method);
 		
 		if(!isset($this->_rule[$method]))
@@ -139,7 +139,7 @@ class Router {
 	 * 
 	 * @return void
 	 */
-	public function Run() {
+	public function run() {
 		foreach((array)$this->_rule[$this->_method]['path'] as $index => $path) {
 			if('default' === $path) {
 				$this->_default_route = $index;
@@ -147,7 +147,7 @@ class Router {
 			}
 			
 			if(!$this->_rule[$this->_method]['full_regex'][$index])
-				$path = $this->RegexGenerator($path);
+				$path = $this->regexGenerator($path);
 			
 			if(preg_match($path, $this->_uri, $match)) {
 				$this->_is_match = TRUE;
@@ -160,7 +160,7 @@ class Router {
 			if(NULL !== $this->_default_route)
 				$this->_rule[$this->_method]['callback'][$this->_default_route]();
 			else
-				Response::HTTPCode(404);
+				Response::setCode(404);
 		}
 	}
 }

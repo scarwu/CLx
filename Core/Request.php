@@ -19,13 +19,15 @@ class Request {
 	private static $_delete = NULL;
 	private static $_files = NULL;
 	private static $_method = NULL;
+	private static $_params = NULL;
+	private static $_headers = NULL;
 	
 	private function __construct() {}
 	
 	/**
 	 * 
 	 */
-	public static function Method() {
+	public static function method() {
 		if(NULL !== self::$_method)
 			return self::$_method;
 		
@@ -39,7 +41,7 @@ class Request {
 	 * 
 	 * @return string
 	 */
-	public static function Uri() {
+	public static function uri() {
 		if(NULL !== self::$_uri)
 			return self::$_uri;
 		
@@ -60,7 +62,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Get() {
+	public static function get() {
 		if(NULL !== self::$_get)
 			return self::$_get;
 		
@@ -72,12 +74,17 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Post() {
+	public static function post() {
 		if(NULL !== self::$_post)
 			return self::$_post;
 		
 		parse_str(file_get_contents('php://input'), $input);
-		return self::$_post = isset($_POST['params']) ? $_POST['params'] : (isset($input['params']) ? $input['params'] : NULL);
+		self::$_post = isset($_POST['params']) ? $_POST['params'] : (isset($input['params']) ? $input['params'] : NULL);
+		
+		if(is_string(self::$_post))
+			self::$_post = json_decode(self::$_post, TRUE);
+		
+		return self::$_post;
 	}
 	
 	/**
@@ -85,7 +92,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Put() {
+	public static function put() {
 		if(NULL !== self::$_put)
 			return self::$_put;
 		
@@ -98,12 +105,12 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Delete() {
+	public static function delete() {
 		if(NULL !== self::$_delete)
 			return self::$_delete;
 		
 		parse_str(file_get_contents('php://input'), $input);
-		return self::$_delete = isset($input['params']) ? $input['params'] : NULL;
+		return self::$_delete = isset($input) ? $input : NULL;
 	}
 	
 	/**
@@ -111,7 +118,7 @@ class Request {
 	 * 
 	 * @return complex
 	 */
-	public static function Files() {
+	public static function files() {
 		if(NULL !== self::$_files)
 			return self::$_files;
 		
@@ -119,26 +126,58 @@ class Request {
 	}
 	
 	/**
-	 * Files
+	 * Parameters
 	 * 
 	 * @return complex
 	 */
-	public static function Params() {
-		switch(self::Method()) {
+	public static function params() {
+		if(NULL !== self::$_params)
+			return self::$_params;
+		
+		switch(self::method()) {
 			case 'GET':
-				return self::Get();
+				if(preg_match('/({(?:.|\n)+})(?:(?:.|\n)+)?/', urldecode($_SERVER['QUERY_STRING']), $match)) {
+					if(isset($match[1]))
+						return self::$_params = json_decode($match[1], TRUE);
+					else
+						return $match[0];
+				}
+				else
+					return NULL;
 				break;
 			case 'POST':
-				return self::Post();
-				break;
 			case 'PUT':
-				return self::Put();
-				break;
 			case 'DELETE':
-				return self::Delete();
+				return self::$_params = json_decode(file_get_contents('php://input'), TRUE);
 				break;
 			default:
 				return NULL;
 		}
+	}
+	
+	/**
+	 * Headers
+	 */
+	public static function headers() {
+		if(NULL !== self::$_headers)
+			return self::$_headers;
+		
+		foreach($_SERVER as $key => $value)
+			if(preg_match('/^HTTP_(.+)/', $key, $match)) {
+				$names = explode('_', $match[1]);
+				$index = ucfirst(strtolower(array_shift($names)));
+				if(count($names))
+					foreach($names as $segments)
+						$index .= '-' . ucfirst(strtolower($segments));
+				self::$_headers[$index] = $value;
+			}
+		
+		if(isset($_SERVER['CONTENT_LENGTH']))
+			self::$_headers['Content-Length'] = $_SERVER['CONTENT_LENGTH'];
+		
+		if(isset($_SERVER['CONTENT_TYPE']))
+			self::$_headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+		
+		return self::$_headers;
 	}
 }

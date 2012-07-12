@@ -22,7 +22,7 @@ class Loader {
 	 * 
 	 * @return boolean
 	 */
-	public static function Config($_config_name, $_config_index = NULL) {
+	public static function config($_config_name, $_config_index = NULL) {
 		$_config_path = sprintf('%s/Config/%s.php', CLX_APP_ROOT, $_config_name);
 		if(!file_exists($_config_path))
 			return FALSE;
@@ -42,7 +42,7 @@ class Loader {
 	 * 
 	 * @return boolean
 	 */
-	public static function Library($_library_name) {
+	public static function library($_library_name) {
 		$_library_path = sprintf('%s/Library/%s.php', CLX_APP_ROOT, $_library_name);
 		if(!file_exists($_library_path))
 			return FALSE;
@@ -59,7 +59,7 @@ class Loader {
 	 * 
 	 * @return object
 	 */
-	public static function Model($_model_name) {
+	public static function model($_model_name) {
 		$_model_name = ucfirst($_model_name) . 'Model';
 		$_model_path = sprintf('%s/Models/%s.php', CLX_APP_ROOT, $_model_name);
 		if(!file_exists($_model_path))
@@ -79,7 +79,7 @@ class Loader {
 	 * 
 	 * @return string
 	 */
-	public static function View($_view_name, $_view_data = NULL, $_view_output = FALSE) {
+	public static function view($_view_name, $_view_data = NULL, $_view_output = FALSE) {
 		$_view_path = sprintf('%s/Views/%s.html', CLX_APP_ROOT, $_view_name);
 		if(!file_exists($_view_path))
 			return FALSE;
@@ -109,7 +109,7 @@ class Loader {
 	 * 
 	 * @return boolean
 	 */
-	public static function Controller($_controller_name, $_method_name, $_method_params = NULL) {
+	public static function controller($_controller_name, $_method_name, $_method_params = NULL) {
 		$_controller_name = ucfirst($_controller_name) . 'Controller';
 		$_controller_path = sprintf('%s/Controllers/%s.php', CLX_APP_ROOT, $_controller_name);
 		if(!file_exists($_controller_path))
