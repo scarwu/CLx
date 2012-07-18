@@ -12,11 +12,16 @@
 namespace CLx\Core;
 
 abstract class Controller {
+
+	public function __construct() {}
 	
 	/**
-	 * 
+	 * Before filter
 	 */
-	public function __construct() {
-		
-	}
+	public function _before() {}
+	
+	/**
+	 * After filter
+	 */
+	public function _after() {}
 }
