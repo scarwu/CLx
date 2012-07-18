@@ -3,7 +3,7 @@ CLx
 
 ### Description
 
-PHP RESTful Server Framework (from the Cixty-Core)
+CLx is a PHP Framework
 
 ### Requirement
 
