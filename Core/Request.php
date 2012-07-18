@@ -25,7 +25,9 @@ class Request {
 	private function __construct() {}
 	
 	/**
+	 * HTTP Method
 	 * 
+	 * @return string
 	 */
 	public static function method() {
 		if(NULL !== self::$_method)
@@ -60,7 +62,7 @@ class Request {
 	/**
 	 * Uri
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function get() {
 		if(NULL !== self::$_get)
@@ -72,7 +74,7 @@ class Request {
 	/**
 	 * Post
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function post() {
 		if(NULL !== self::$_post)
@@ -90,7 +92,7 @@ class Request {
 	/**
 	 * Put
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function put() {
 		if(NULL !== self::$_put)
@@ -103,7 +105,7 @@ class Request {
 	/**
 	 * Delete
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function delete() {
 		if(NULL !== self::$_delete)
@@ -116,7 +118,7 @@ class Request {
 	/**
 	 * Files
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function files() {
 		if(NULL !== self::$_files)
@@ -128,7 +130,7 @@ class Request {
 	/**
 	 * Parameters
 	 * 
-	 * @return complex
+	 * @return array
 	 */
 	public static function params() {
 		if(NULL !== self::$_params)
@@ -157,6 +159,8 @@ class Request {
 	
 	/**
 	 * Headers
+	 * 
+	 * @return array
 	 */
 	public static function headers() {
 		if(NULL !== self::$_headers)

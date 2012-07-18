@@ -109,7 +109,7 @@ class Loader {
 	 * 
 	 * @return boolean
 	 */
-	public static function controller($_controller_name, $_method_name, $_method_params = NULL) {
+	public static function controller($_controller_name, $_function_name, $_function_params = NULL) {
 		$_controller_name = ucfirst($_controller_name) . 'Controller';
 		$_controller_path = sprintf('%s/Controllers/%s.php', CLX_APP_ROOT, $_controller_name);
 		if(!file_exists($_controller_path))
@@ -117,11 +117,19 @@ class Loader {
 
 		require_once $_controller_path;
 
-		if(!method_exists($_controller_name, $_method_name))
+		if(!method_exists($_controller_name, $_function_name))
 			return FALSE;
 		
 		$_class = new $_controller_name();
-		$_class->$_method_name($_method_params);
+		
+		// Call filter before
+		$_class->_before();
+		
+		// Call requested function
+		$_class->$_function_name($_function_params);
+		
+		// Call filter after
+		$_class->_after();
 		return TRUE;
 	}
 }

@@ -64,9 +64,9 @@ class Database {
 	}
 	
 	/**
-	 * Disconnet Database
+	 * Disconnect Database
 	 */
-	public static function disconnet() {
+	public static function disconnect() {
 		self::$_instance = NULL;
 	}
 	
