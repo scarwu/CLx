@@ -33,6 +33,11 @@ require_once CLX_SYS_ROOT . 'Core/Autoload.php';
 // Register Autoload
 \CLx\Core\Autoload::register();
 
+/*
+ * Init Request
+ */
+\CLx\Core\Request::init();
+ 
 /**
  * Require Route Config, Setting Router and Run
  */

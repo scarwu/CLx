@@ -22,7 +22,29 @@ class Request {
 	private static $_params = NULL;
 	private static $_headers = NULL;
 	
+	private static $_instance = NULL;
+	
 	private function __construct() {}
+	
+	public static function init() {
+		if(NULL == self::$_instance) {
+			// FIXME
+			if('PUT' == self::method()) {
+				$headers = self::headers();
+				$content_type = explode(';', $headers['Content-Type']);
+				if($content_type[0] == 'multipart/form-data') {
+					$boundary = str_replace('boundary=', '', trim($content_type[1]));
+					
+					// Put Method Upload File Handler
+					$result = \CLx\Component\EntityParser::parsePutData($boundary);
+
+					self::$_put = json_decode(trim($result['params'], "\r\n"), TRUE);
+					self::$_params = self::$_params;
+					self::$_files = $result['file'];
+				}
+			}
+		}
+	}
 	
 	/**
 	 * HTTP Method
