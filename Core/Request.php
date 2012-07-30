@@ -27,27 +27,33 @@ class Request {
 	private function __construct() {}
 	
 	public static function init() {
-		if(NULL == self::$_instance) {
-			// FIXME
-			if('PUT' == self::method()) {
-				$headers = self::headers();
+		if(NULL != self::$_instance)
+			return FALSE;
+		
+		// FIXME
+		if('PUT' == self::method()) {
+			
+			$headers = self::headers();
+			if(!isset($headers['Content-Type']))
+				return FALSE;
+			
+			$content_type = explode(';', $headers['Content-Type']);
+			if($content_type[0] == 'multipart/form-data') {
+				$boundary = str_replace('boundary=', '', trim($content_type[1]));
 				
-				if(isset($headers['Content-Type'])) {
-					$content_type = explode(';', $headers['Content-Type']);
-					
-					if($content_type[0] == 'multipart/form-data') {
-						$boundary = str_replace('boundary=', '', trim($content_type[1]));
-						
-						// Put Method Upload File Handler
-						$result = \CLx\Component\EntityParser::parsePutData($boundary);
-	
-						self::$_put = json_decode(trim($result['params'], "\r\n"), TRUE);
-						self::$_params = self::$_params;
-						self::$_files = $result['file'];
-					}
+				// Put Method Upload File Handler
+				$result = \CLx\Component\EntityParser::parsePutData($boundary);
+				
+				self::$_files = $result['file'];
+				// FIXME maybe params isn't called "json"
+				if(isset($result['json'])) {
+					self::$_put = json_decode(trim($result['json'], "\r\n"), TRUE);
+					self::$_params = self::$_params;
 				}
 			}
 		}
+		
+		return TRUE;
 	}
 	
 	/**
