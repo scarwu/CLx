@@ -40,7 +40,7 @@ class EntityParser {
 						$filename = explode('/', $headers['Content-Disposition']['filename']);
 						$result[$name]['name'] = array_pop($filename);
 						$result[$name]['type'] = $headers['Content-Type'][0];
-						$result[$name]['tmp_name'] = TEMP_DIR . hash('md5', time().$result[$name]['name']);
+						$result[$name]['tmp_name'] = TEMP_DIR . 'CLx_' . hash('md5', time().$result[$name]['name']);
 						$result[$name]['error'] = 0;
 						
 						$tmp_buffer = array();

@@ -36,6 +36,7 @@ require_once CLX_SYS_ROOT . 'Core/Autoload.php';
 /*
  * Init Request
  */
+// FIXME maybe don't use init function
 \CLx\Core\Request::init();
  
 /**
