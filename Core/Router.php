@@ -110,7 +110,7 @@ class Router {
 	public function addList($route_list) {
 		foreach((array)$route_list as $method => $route)
 			foreach((array)$route as $rule)
-				$this->add($method, $rule[0], $rule[1], isset($rule[3]) ? $rule[3] : FALSE);
+				$this->add($method, $rule[0], $rule[1], isset($rule[2]) ? $rule[2] : FALSE);
 	}
 	
 	/**
