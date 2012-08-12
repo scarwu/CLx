@@ -84,7 +84,7 @@ class Request {
 		
 		// Using REQUEST_URI
 		elseif(isset($_SERVER['REQUEST_URI']))
-			return self::$_uri = preg_replace(array('/^\/index.php/', '/\?.*$/'), '', $_SERVER['REQUEST_URI']);
+			return self::$_uri = urldecode(preg_replace(array('/^\/index.php/', '/\?.*$/'), '', $_SERVER['REQUEST_URI']));
 		
 		// Using PHP_SELF
 		elseif(isset($_SERVER['PHP_SELF']))
