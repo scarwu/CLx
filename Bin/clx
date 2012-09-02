@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+define('SEPARATOR', DIRECTORY_SEPARATOR);
+
+// Define Path
+define('ROOT', realpath(dirname(realpath($_SERVER['PHP_SELF'])) . SEPARATOR . '..' . SEPARATOR . 'CLI') . SEPARATOR);
+
+require_once ROOT . 'Boot.php';
