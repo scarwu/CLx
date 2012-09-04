@@ -29,10 +29,10 @@ class Loader {
 
 		include $_config_path;
 		
-		if(NULL != $_config_index && isset($_config_name[$_config_index]))
+		if(NULL != $_config_index && isset(${$_config_name}[$_config_index]))
 			return ${$_config_name}[$_config_index];
 		
-		return isset(${$_config_name}) ? $$_config_name : FALSE;
+		return isset(${$_config_name}) ? ${$_config_name} : FALSE;
 	}
 	
 	/**
