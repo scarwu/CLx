@@ -60,7 +60,7 @@ class Request {
 	}
 	
 	/**
-	 * Uri
+	 * Get
 	 * 
 	 * @return array
 	 */
@@ -68,7 +68,7 @@ class Request {
 		if(NULL !== self::$_get)
 			return self::$_get;
 		
-		return self::$_get = isset($_GET['params']) ? $_GET['params'] : NULL;
+		return self::$_get = $_GET;
 	}
 	
 	/**
@@ -80,39 +80,7 @@ class Request {
 		if(NULL !== self::$_post)
 			return self::$_post;
 		
-		parse_str(file_get_contents('php://input'), $input);
-		self::$_post = isset($_POST['params']) ? $_POST['params'] : (isset($input['params']) ? $input['params'] : NULL);
-		
-		if(is_string(self::$_post))
-			self::$_post = json_decode(self::$_post, TRUE);
-		
-		return self::$_post;
-	}
-	
-	/**
-	 * Put
-	 * 
-	 * @return array
-	 */
-	public static function put() {
-		if(NULL !== self::$_put)
-			return self::$_put;
-		
-		parse_str(file_get_contents('php://input'), $input);
-		return self::$_put = isset($input['params']) ? $input['params'] : NULL;
-	}
-	
-	/**
-	 * Delete
-	 * 
-	 * @return array
-	 */
-	public static function delete() {
-		if(NULL !== self::$_delete)
-			return self::$_delete;
-		
-		parse_str(file_get_contents('php://input'), $input);
-		return self::$_delete = isset($input) ? $input : NULL;
+		return self::$_post = $_POST;
 	}
 	
 	/**
