@@ -80,7 +80,7 @@ class Loader {
 	 * @return string
 	 */
 	public static function view($_view_name, $_view_data = NULL, $_view_output = FALSE) {
-		$_view_path = sprintf('%s/Views/%s.html', CLX_APP_ROOT, $_view_name);
+		$_view_path = sprintf('%s/Views/%s.php', CLX_APP_ROOT, $_view_name);
 		if(!file_exists($_view_path))
 			return FALSE;
 
