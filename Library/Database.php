@@ -106,4 +106,11 @@ class Database {
 	public function insertId() {
 		return $this->_dbh->lastInsertId();
 	}
+
+	/**
+	 * Return effect rows
+	 */
+	public function count() {
+		return $this->_sth->rowCount();
+	}
 }
