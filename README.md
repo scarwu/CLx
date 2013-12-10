@@ -3,7 +3,7 @@ CLx
 
 ### Description
 
-CLx is a PHP Framework
+Experimental PHP MVC Framework
 
 ### Requirement
 
